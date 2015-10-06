@@ -8,7 +8,7 @@ import java.util.List;
  * Created by vova on 06.10.15.
  */
 public interface PhotoRepository {
-    List<Photo> getPhotos();
+    List<Photo> getPhotos(long id);
     Photo getPhoto(long id);
 
     void insertPhoto(Photo photo);

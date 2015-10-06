@@ -21,9 +21,10 @@ public class PhotoRepositoryImpl extends BaseRepository implements PhotoReposito
     }
 
     @Override
-    public List<Photo> getPhotos() {
+    public List<Photo> getPhotos(long album_id) {
        List<Photo> list = new ArrayList<>();
-        final String SELECT = " select * from " + TABLES.PHOTOS.TABLE_NAME;
+        final String SELECT = " select * from " + TABLES.PHOTOS.TABLE_NAME + " as t " +
+                " where t." + TABLES.PHOTOS.ALBUM_ID + " = " + album_id;
         openDatabase();
         Cursor cursor = getDatabase().rawQuery(SELECT, null);
         if (cursor.moveToFirst()){
