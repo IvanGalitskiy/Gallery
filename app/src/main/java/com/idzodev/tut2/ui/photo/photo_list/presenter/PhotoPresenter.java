@@ -10,5 +10,5 @@ public interface PhotoPresenter {
     void showPhotos(long album_id);
 
     void onPhotoClick(Photo photo);
-    void onPhotoCreate();
+
 }

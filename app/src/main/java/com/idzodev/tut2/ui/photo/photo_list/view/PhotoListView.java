@@ -9,6 +9,5 @@ import java.util.List;
  */
 public interface PhotoListView {
     void showPhoto(List<Photo> photos);
-    void showCreatePhotoFragment();
     void showPhotoSlideFragment(Photo photo);
 }

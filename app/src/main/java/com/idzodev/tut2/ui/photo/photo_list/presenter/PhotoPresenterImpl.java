@@ -31,8 +31,5 @@ public class PhotoPresenterImpl implements PhotoPresenter {
         photoListView.showPhotoSlideFragment(photo);
     }
 
-    @Override
-    public void onPhotoCreate() {
-        photoListView.showCreatePhotoFragment();
-    }
+
 }
