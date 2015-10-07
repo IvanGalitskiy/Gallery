@@ -31,5 +31,12 @@ public class PhotoPresenterImpl implements PhotoPresenter {
         photoListView.showPhotoSlideFragment(photo);
     }
 
-
+    @Override
+    public void onPhotoCreateFromCamera() {
+        photoListView.createPhotoFromCamera();
+    }
+    @Override
+    public void onPhotoCreateFromGallery() {
+        photoListView.createPhotoFromGallery();
+    }
 }

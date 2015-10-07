@@ -8,7 +8,8 @@ import com.idzodev.tut2.domain.entities.Photo;
  */
 public interface PhotoPresenter {
     void showPhotos(long album_id);
-
+    void onPhotoCreateFromGallery();
+    void onPhotoCreateFromCamera();
     void onPhotoClick(Photo photo);
 
 }
