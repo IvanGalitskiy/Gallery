@@ -15,8 +15,7 @@ import butterknife.InjectView;
  */
 public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-    @InjectView(R.id.item_photo_image)
-    ImageView imageView;
+    @InjectView(R.id.item_photo_image) ImageView imageView;
 
     public PhotoViewHolder(View itemView) {
         super(itemView);

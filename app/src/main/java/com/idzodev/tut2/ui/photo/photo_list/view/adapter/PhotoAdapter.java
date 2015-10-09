@@ -1,5 +1,6 @@
 package com.idzodev.tut2.ui.photo.photo_list.view.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final LayoutInflater inflater;
     private OnPhotoClickListener listener;
 
-    public PhotoAdapter(LayoutInflater inflater) {
+    public PhotoAdapter(Context context) {
         this.photos = new ArrayList<>();
-        this.inflater = inflater;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override

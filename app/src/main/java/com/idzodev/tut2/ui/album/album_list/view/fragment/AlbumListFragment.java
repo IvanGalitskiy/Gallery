@@ -20,6 +20,7 @@ import com.idzodev.tut2.ui.album.album_list.presenter.AlbumPresenterImpl;
 import com.idzodev.tut2.ui.album.album_list.view.AlbumListView;
 import com.idzodev.tut2.ui.album.album_list.view.adapter.AlbumAdapter;
 import com.idzodev.tut2.ui.album.album_list.view.adapter.OnAlbumClickListener;
+import com.idzodev.tut2.ui.photo.photo_list.view.fragment.PhotoListFragment;
 
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class AlbumListFragment extends Fragment implements AlbumListView, OnAlbu
 
     private AlbumAdapter albumAdapter;
     private AlbumPresenter presenter;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,10 @@ public class AlbumListFragment extends Fragment implements AlbumListView, OnAlbu
 
     @Override
     public void showPhotoListFragment(Album album) {
-
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, PhotoListFragment.newInstance(album))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.idzodev.tut2.domain.entities.Photo;
 import com.idzodev.tut2.domain.repositories.PhotoRepository;
 import com.idzodev.tut2.ui.photo.photo_list.view.PhotoListView;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,5 +39,6 @@ public class PhotoPresenterImpl implements PhotoPresenter {
     @Override
     public void onPhotoCreateFromGallery() {
         photoListView.createPhotoFromGallery();
+        
     }
 }
