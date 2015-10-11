@@ -111,7 +111,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     Uri imageUri;
 
     private void openCamera(){
-        ContentValues values = new ContentValues();
+       ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "StartTodo image"+new Date().getTime());
         values.put(MediaStore.Images.Media.DESCRIPTION, "Image from Camera");
         imageUri = getActivity().getContentResolver().insert(
@@ -119,11 +119,18 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, 2);
+      /*  Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent,2);*/
     }
-
+    private static final int SELECT_PICTURE = 1;
     private void openGallery(){
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 1);
+      /*  Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);*/
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), SELECT_PICTURE);
     }
 
     @Override
@@ -140,7 +147,10 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
                 imageUri = null;
             }
 
-            Picasso.with(getActivity()).load(album.getPhoto()).into(imageView);
+            Picasso.with(getActivity())
+                    .load(album.getPhoto())
+                    .into(imageView);
+
         }
     }
 }

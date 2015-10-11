@@ -25,7 +25,10 @@ public class TABLES {
                     URL + " text " +
                     " ) ";
         }
-
+        public static String drop()
+        {
+            return "drop table " + TABLE_NAME;
+        }
         public static ContentValues getContentValues(Album album, boolean addId) {
             ContentValues values = new ContentValues();
             if (addId) {
@@ -66,7 +69,10 @@ public class TABLES {
                     POSITION + " text " +
                     " ) ";
         }
-
+        public static String drop()
+        {
+            return "drop table " + TABLE_NAME;
+        }
         public static ContentValues getContentValues(Photo photo, boolean addId) {
             ContentValues values = new ContentValues();
             if (addId) {

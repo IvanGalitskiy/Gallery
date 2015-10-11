@@ -26,7 +26,9 @@ public class PhotoRepositoryImpl extends BaseRepository implements PhotoReposito
         final String SELECT = " select * from " + TABLES.PHOTOS.TABLE_NAME + " as t " +
                 " where t." + TABLES.PHOTOS.ALBUM_ID + " = " + album_id;
         openDatabase();
+
         Cursor cursor = getDatabase().rawQuery(SELECT, null);
+
         if (cursor.moveToFirst()){
             do {
                 list.add(TABLES.PHOTOS.getPhoto(cursor));

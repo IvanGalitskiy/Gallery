@@ -38,10 +38,23 @@ public class DatabaseFactory extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLES.ALBUMS.createTable());
+        db.execSQL(TABLES.PHOTOS.createTable());
+        for (int i = 0; i < 5; i++)
+            i =i;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(TABLES.ALBUMS.drop());
+        db.execSQL(TABLES.PHOTOS.drop());
 
+    }
+    public void createAlbumsTable()
+    {
+        db.execSQL(TABLES.ALBUMS.createTable());
+    }
+    public void createPhotosTable()
+    {
+        db.execSQL(TABLES.PHOTOS.createTable());
     }
 }

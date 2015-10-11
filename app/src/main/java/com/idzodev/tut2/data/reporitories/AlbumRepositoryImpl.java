@@ -42,7 +42,9 @@ public class AlbumRepositoryImpl extends BaseRepository implements AlbumReposito
                 " where t." + TABLES.ALBUMS.ID + " = " + id;
 
         openDatabase();
+
         Cursor cursor = getDatabase().rawQuery(SELECT, null);
+
         if (cursor.moveToFirst()){
             album = TABLES.ALBUMS.getAlbum(cursor);
         }

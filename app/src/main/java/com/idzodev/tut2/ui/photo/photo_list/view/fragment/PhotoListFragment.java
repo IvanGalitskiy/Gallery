@@ -1,5 +1,6 @@
 package com.idzodev.tut2.ui.photo.photo_list.view.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -24,8 +25,10 @@ import com.idzodev.tut2.ui.photo.photo_list.presenter.PhotoPresenterImpl;
 import com.idzodev.tut2.ui.photo.photo_list.view.PhotoListView;
 import com.idzodev.tut2.ui.photo.photo_list.view.adapter.OnPhotoClickListener;
 import com.idzodev.tut2.ui.photo.photo_list.view.adapter.PhotoAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
     public static final String ALBUM_ID = "ALBUM_ID";
     private PhotoAdapter photoAdapter;
     private PhotoPresenter presenter;
+    private Photo photo = new Photo();
+    List<Photo> photos = new ArrayList<>();
+    private long album_id;
 
 
     private Uri imageUri;
@@ -71,7 +77,7 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.fragment_photo_list, container, false);
-        ButterKnife.inject(this, v);
+       ButterKnife.inject(this, v);
         return  v;
     }
 
@@ -83,8 +89,15 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
         photoAdapter.setListener(this);
         vRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         vRecyclerView.setAdapter(photoAdapter);
+        vGallery.setOnClickListener(this);
+        vCamera.setOnClickListener(this);
 
-        presenter.showPhotos(savedInstanceState.getLong(ALBUM_ID));
+        if (getArguments()!= null){
+            album_id = getArguments().getLong(ALBUM_ID);
+           presenter.showPhotos(album_id);
+       }
+
+
     }
 
     @Override
@@ -135,7 +148,40 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
         startActivityForResult(intent, 2);
     }
     private void openGallery(){
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 1);
+       /* Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);*/
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), 1);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Photo thisPhoto = new Photo();
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == 1){
+                Uri imageUri = data.getData();
+                photo.setUrl(imageUri.toString());
+                photo.setAlbumId(album_id);
+                thisPhoto.setUrl(imageUri.toString());
+            }
+
+            if (requestCode == 2) {
+                thisPhoto.setUrl(imageUri.toString());
+                imageUri = null;
+            }
+            save();
+
+            photos.add(thisPhoto);
+           presenter.showPhotos(album_id);
+
+        }
+    }
+
+    private void save(){
+        PhotoRepositoryImpl repository = new PhotoRepositoryImpl(getActivity());
+            repository.insertPhoto(photo);
     }
 }
