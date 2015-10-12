@@ -121,6 +121,10 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
 
     }
 
+    @Override
+    public void saveToAdapter(Photo photo) {
+        photoAdapter.addPhoto(photo);
+    }
 
 
     @Override

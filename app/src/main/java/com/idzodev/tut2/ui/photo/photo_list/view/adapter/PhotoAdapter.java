@@ -59,7 +59,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-
+    public void addPhoto(Photo photo)
+    {
+        photos.add(photo);
+        notifyDataSetChanged();
+    }
     public void setListener(OnPhotoClickListener listener) {
         this.listener = listener;
     }

@@ -24,7 +24,6 @@ public class PhotoPresenterImpl implements PhotoPresenter {
     public void showPhotos(long album_id) {
         List<Photo> photos = repository.getPhotos(album_id);
         photoListView.showPhoto(photos);
-
     }
 
     @Override
@@ -34,8 +33,9 @@ public class PhotoPresenterImpl implements PhotoPresenter {
 
     @Override
     public void savePhoto(String url, long album_id, int pos) {
-        repository.insertPhoto(new Photo(0, url,album_id,pos));
-        showPhotos(album_id);
+        Photo photo = new Photo(0, url,album_id,pos);
+        repository.insertPhoto(photo);
+        photoListView.saveToAdapter(photo);
     }
 
     @Override
