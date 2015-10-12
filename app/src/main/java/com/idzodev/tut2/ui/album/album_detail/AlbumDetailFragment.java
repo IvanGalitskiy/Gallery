@@ -35,7 +35,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     @InjectView(R.id.fragment_album_detail_open_camera)Button btCamera;
     @InjectView(R.id.fragment_album_detail_save) Button btSave;
     @InjectView(R.id.fragment_album_detail_image)ImageView imageView;
-    @InjectView(R.id.fragment_album_detail_name)EditText editText;
+    @InjectView(R.id.fragment_album_detail_name)EditText vEditText;
 
 
     private Album album;
@@ -78,7 +78,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         btSave.setOnClickListener(this);
 
         Picasso.with(getActivity()).load(album.getPhoto()).into(imageView);
-        editText.setText(album.getName());
+        vEditText.setText(album.getName());
     }
 
     @Override
@@ -101,8 +101,10 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     private void save(){
         AlbumRepositoryImpl repository = new AlbumRepositoryImpl(getActivity());
         if (album.getId() == 0){
+            album.setName(vEditText.getText().toString());
             repository.insertAlbum(album);
         } else {
+            album.setName(vEditText.getText().toString());
             repository.updateAlbum(album);
         }
         getActivity().onBackPressed();
@@ -140,6 +142,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
             if (requestCode == 1){
                 Uri imageUri = data.getData();
                 album.setPhoto(imageUri.toString());
+
             }
 
             if (requestCode == 2){

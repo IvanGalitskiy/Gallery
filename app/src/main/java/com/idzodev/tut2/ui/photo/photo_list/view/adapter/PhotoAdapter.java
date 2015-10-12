@@ -10,6 +10,7 @@ import com.idzodev.tut2.R;
 import com.idzodev.tut2.domain.entities.Album;
 import com.idzodev.tut2.domain.entities.Photo;
 import com.idzodev.tut2.ui.album.album_list.view.adapter.OnAlbumClickListener;
+import com.idzodev.tut2.ui.photo.photo_list.view.fragment.PhotoListFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         PhotoViewHolder holder = (PhotoViewHolder) viewHolder;
         holder.itemView.setOnClickListener(this);
+       holder.vDelete.setOnClickListener(this);
         holder.itemView.setTag(position);
 
        Photo photo = photos.get(position);
@@ -57,6 +59,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+
     public void setListener(OnPhotoClickListener listener) {
         this.listener = listener;
     }
@@ -64,8 +67,19 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onClick(View v) {
         int pos = (int) v.getTag();
-        if (listener != null){
-            listener.onPhotoClick(photos.get(pos));
+        switch (v.getId()) {
+            case (R.id.item_photo_image):
+
+                     if (listener != null) {
+                           listener.onPhotoClick(photos.get(pos));
+                     }
+                break;
+            case (R.id.item_photo_delbtn):
+                v.getTag();
+                if (listener != null) {
+
+                }
+                break;
         }
     }
 }

@@ -49,12 +49,13 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
     public static final String ALBUM_ID = "ALBUM_ID";
     private PhotoAdapter photoAdapter;
     private PhotoPresenter presenter;
-    private Photo photo = new Photo();
-    List<Photo> photos = new ArrayList<>();
     private long album_id;
+    private int pos = 0;
 
 
     private Uri imageUri;
+
+
     public static PhotoListFragment newInstance(Album album){
         Bundle args = new Bundle();
         long id = 0;
@@ -120,15 +121,20 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
 
     }
 
+
+
     @Override
     public void onPhotoClick(Photo photo) {
         presenter.onPhotoClick(photo);
     }
 
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.fragment_photo_list_gallery:
+
                 presenter.onPhotoCreateFromGallery();
                 break;
             case R.id.fragment_photo_list_camera:
@@ -159,29 +165,17 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Photo thisPhoto = new Photo();
+
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 1){
-                Uri imageUri = data.getData();
-                photo.setUrl(imageUri.toString());
-                photo.setAlbumId(album_id);
-                thisPhoto.setUrl(imageUri.toString());
+                 imageUri = data.getData();
+                 pos++;
             }
-
             if (requestCode == 2) {
-                thisPhoto.setUrl(imageUri.toString());
                 imageUri = null;
             }
-            save();
-
-            photos.add(thisPhoto);
-           presenter.showPhotos(album_id);
-
+            presenter.savePhoto(imageUri.toString(),album_id, pos);
+           // presenter.showPhotos(album_id);
         }
-    }
-
-    private void save(){
-        PhotoRepositoryImpl repository = new PhotoRepositoryImpl(getActivity());
-            repository.insertPhoto(photo);
     }
 }

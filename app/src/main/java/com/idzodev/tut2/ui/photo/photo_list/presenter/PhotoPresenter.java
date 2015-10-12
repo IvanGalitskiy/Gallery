@@ -11,5 +11,6 @@ public interface PhotoPresenter {
     void onPhotoCreateFromGallery();
     void onPhotoCreateFromCamera();
     void onPhotoClick(Photo photo);
+    void savePhoto(String url, long album_id, int pos);
 
 }

@@ -33,6 +33,12 @@ public class PhotoPresenterImpl implements PhotoPresenter {
     }
 
     @Override
+    public void savePhoto(String url, long album_id, int pos) {
+        repository.insertPhoto(new Photo(0, url,album_id,pos));
+        showPhotos(album_id);
+    }
+
+    @Override
     public void onPhotoCreateFromCamera() {
         photoListView.createPhotoFromCamera();
     }

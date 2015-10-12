@@ -3,6 +3,7 @@ package com.idzodev.tut2.ui.photo.photo_list.view.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.idzodev.tut2.R;
@@ -15,7 +16,10 @@ import butterknife.InjectView;
  */
 public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-    @InjectView(R.id.item_photo_image) ImageView imageView;
+    @InjectView(R.id.item_photo_image)
+    ImageView imageView;
+    @InjectView(R.id.item_photo_delbtn)
+    ImageButton vDelete;
 
     public PhotoViewHolder(View itemView) {
         super(itemView);
