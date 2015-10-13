@@ -10,10 +10,13 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.SmallTest;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.idzodev.tut2.R;
 import com.idzodev.tut2.data.reporitories.PhotoRepositoryImpl;
@@ -88,6 +91,7 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
 
         photoAdapter = new PhotoAdapter(getActivity());
         photoAdapter.setListener(this);
+
         vRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         vRecyclerView.setAdapter(photoAdapter);
         vGallery.setOnClickListener(this);
@@ -126,6 +130,11 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
         photoAdapter.addPhoto(photo);
     }
 
+    @Override
+    public void deletePhoto(Photo photo) {
+        photoAdapter.deletePhoto(photo);
+    }
+
 
     @Override
     public void onPhotoClick(Photo photo) {
@@ -138,7 +147,6 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.fragment_photo_list_gallery:
-
                 presenter.onPhotoCreateFromGallery();
                 break;
             case R.id.fragment_photo_list_camera:
@@ -179,7 +187,7 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
                 imageUri = null;
             }
             presenter.savePhoto(imageUri.toString(),album_id, pos);
-           // presenter.showPhotos(album_id);
+
         }
     }
 }
