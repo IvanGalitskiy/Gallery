@@ -7,4 +7,5 @@ import com.idzodev.tut2.domain.entities.Photo;
  */
 public interface OnPhotoClickListener {
     void onPhotoClick(Photo photo);
+    void deletePhoto(Photo photo);
 }

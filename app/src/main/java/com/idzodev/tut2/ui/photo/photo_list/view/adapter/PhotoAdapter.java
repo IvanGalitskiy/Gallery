@@ -98,7 +98,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
                 break;
             case R.id.item_photo_delbtn:
-
+              Photo photo =   photos.get(pos);
+                if (listener != null) {
+                    listener.deletePhoto(photo);
+                    this.deletePhoto(photo);
+                }
                 break;
         }
 
