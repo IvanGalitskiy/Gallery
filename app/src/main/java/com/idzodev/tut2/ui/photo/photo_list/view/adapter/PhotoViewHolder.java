@@ -24,5 +24,6 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
     public PhotoViewHolder(View itemView) {
         super(itemView);
         ButterKnife.inject(this, itemView);
+
     }
 }

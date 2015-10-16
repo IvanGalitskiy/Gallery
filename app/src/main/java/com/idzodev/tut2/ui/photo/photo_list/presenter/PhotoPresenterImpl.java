@@ -39,12 +39,17 @@ public class PhotoPresenterImpl implements PhotoPresenter {
     }
 
     @Override
+    public void deletePhoto(Photo photo) {
+        repository.deletePhoto(photo);
+    }
+
+
+    @Override
     public void onPhotoCreateFromCamera() {
         photoListView.createPhotoFromCamera();
     }
     @Override
     public void onPhotoCreateFromGallery() {
         photoListView.createPhotoFromGallery();
-        
     }
 }

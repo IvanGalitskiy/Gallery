@@ -11,6 +11,7 @@ import com.idzodev.tut2.ui.album.album_list.view.AlbumListView;
 public class AlbumDetailPresenterImpl implements AlbumDetailPresenter {
     private AlbumRepository repository;
     private AlbumDetailView listener;
+    private Album album;
 
     public AlbumDetailPresenterImpl(AlbumDetailView listener, AlbumRepository repository) {
         this.listener = listener;
@@ -20,25 +21,16 @@ public class AlbumDetailPresenterImpl implements AlbumDetailPresenter {
 
     @Override
     public void showAlbum(long id) {
-      Album  album = repository.getAlbum(id);
+        album = repository.getAlbum(id);
         listener.showEditDetail(album);
     }
-
     @Override
-    public void getAlbum(long id) {
-
-    }
-
-    @Override
-    public void editAlbum(long id, String name, String path) {
-        Album album = new Album(id, name,path);
-        repository.updateAlbum(album);
-      //  listener.showEditDetail(album);
-    }
-
-    @Override
-    public void insertAlbum(long id, String name, String path) {
-        Album album = new Album(id, name,path);
-        repository.insertAlbum(album);
+    public void saveAlbum(long id, String name, String path) {
+        album = new Album(id, name,path);
+        if (id == 0){
+            repository.insertAlbum(album);
+        } else {
+            repository.updateAlbum(album);
+        }
     }
 }

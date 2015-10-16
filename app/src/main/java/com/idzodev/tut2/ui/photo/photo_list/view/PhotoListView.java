@@ -13,4 +13,5 @@ public interface PhotoListView {
     void createPhotoFromCamera();
     void showPhotoSlideFragment(Photo photo);
     void saveToAdapter(Photo photo);
+
 }

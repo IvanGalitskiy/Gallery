@@ -43,7 +43,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     @InjectView(R.id.fragment_album_detail_name)EditText vEditText;
 
    private AlbumDetailPresenter presenter;
-    private long id;
+    private long id = 0;
     private Uri imageUri;
 
 
@@ -54,10 +54,9 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         if (album != null){
             id = album.getId();
             url = album.getPhoto();
+            args.putLong("id", id);
+            args.putString("url",url);
         }
-
-        args.putLong("id", id);
-        args.putString("url",url);
         AlbumDetailFragment fragment = new AlbumDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -68,8 +67,12 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         AlbumRepository repository = new AlbumRepositoryImpl(getActivity());
         presenter = new AlbumDetailPresenterImpl(this, repository);
-        id = getArguments().getLong("id");
-        imageUri = Uri.parse(getArguments().getString("url"));
+        if (getArguments()!=null) {
+            id = getArguments().getLong("id");
+            if (getArguments().getString("url")!=null) {
+                imageUri = Uri.parse(getArguments().getString("url"));
+            }
+        }
     }
 
     @Nullable
@@ -101,19 +104,13 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.fragment_album_detail_save:
-                save();
+                presenter.saveAlbum(id, vEditText.getText().toString(), imageUri.toString());
+                getActivity().onBackPressed();
                 break;
         }
     }
 
-    private void save(){
-        if (id == 0){
-            presenter.insertAlbum(id, vEditText.getText().toString(), imageUri.toString());
-        } else {
-           presenter.editAlbum(id,vEditText.getText().toString(), imageUri.toString());
-        }
-        getActivity().onBackPressed();
-    }
+
 
 
     private void openCamera(){
@@ -145,11 +142,8 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 1){
                  imageUri = data.getData();
-
-
             }
             if (requestCode == 2){
-
                 imageUri = null;
             }
 
@@ -161,11 +155,11 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void showEditDetail(Album album) {
-if (album != null) {
+    if (album != null) {
      vEditText.setText(album.getName(), TextView.BufferType.EDITABLE);
        Picasso.with(getActivity())
                 .load(album.getPhoto())
                 .into(imageView);
-}
+        }
     }
 }

@@ -80,7 +80,6 @@ public class PhotoRepositoryImpl extends BaseRepository implements PhotoReposito
                 TABLES.PHOTOS.ID + " = " + photo.getId(),
                 null
         );
-
         closeDatabase();
     }
 }

@@ -5,8 +5,6 @@ package com.idzodev.tut2.ui.album.album_detail.presenter;
  */
 public interface AlbumDetailPresenter {
     void showAlbum(long id);
-    void getAlbum(long id);
-    void editAlbum(long id, String name, String path);
-    void insertAlbum(long id, String name, String path);
+    void saveAlbum(long id, String name, String path);
 
 }
