@@ -67,6 +67,7 @@ public class AlbumRepositoryImpl extends BaseRepository implements AlbumReposito
         openDatabase();
 
         getDatabase().delete(TABLES.ALBUMS.TABLE_NAME, TABLES.ALBUMS.ID + " = " + album.getId(), null);
+        getDatabase().delete(TABLES.PHOTOS.TABLE_NAME,TABLES.PHOTOS.ALBUM_ID + " = " + album.getId(),null);
 
         closeDatabase();
     }

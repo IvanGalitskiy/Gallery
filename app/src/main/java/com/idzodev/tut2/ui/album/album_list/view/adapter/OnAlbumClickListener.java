@@ -7,4 +7,6 @@ import com.idzodev.tut2.domain.entities.Album;
  */
 public interface OnAlbumClickListener {
     void onAlbumClick(Album album);
+    void deleteAlbum(Album album);
+    void editAlbum(Album album);
 }

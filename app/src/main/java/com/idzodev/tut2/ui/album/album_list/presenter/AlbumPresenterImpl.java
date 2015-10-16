@@ -38,4 +38,9 @@ public class AlbumPresenterImpl implements AlbumPresenter {
     public void onAlbumCreate() {
         albumListView.showCreateAlbumFragment(null);
     }
+
+    @Override
+    public void deleteAlbum(Album album) {
+        repository.deleteAlbum(album);
+    }
 }

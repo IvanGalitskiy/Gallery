@@ -29,6 +29,7 @@ public class TABLES {
         {
             return "drop table " + TABLE_NAME;
         }
+
         public static ContentValues getContentValues(Album album, boolean addId) {
             ContentValues values = new ContentValues();
             if (addId) {

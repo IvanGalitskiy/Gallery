@@ -14,11 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.idzodev.tut2.R;
 import com.idzodev.tut2.data.reporitories.AlbumRepositoryImpl;
 import com.idzodev.tut2.domain.entities.Album;
+import com.idzodev.tut2.domain.repositories.AlbumRepository;
 import com.idzodev.tut2.ui.MainActivity;
+import com.idzodev.tut2.ui.album.album_detail.presenter.AlbumDetailPresenter;
+import com.idzodev.tut2.ui.album.album_detail.presenter.AlbumDetailPresenterImpl;
+import com.idzodev.tut2.ui.album.album_list.presenter.AlbumPresenterImpl;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -29,7 +34,7 @@ import butterknife.InjectView;
 /**
  * Created by vova on 06.10.15.
  */
-public class AlbumDetailFragment extends Fragment implements View.OnClickListener{
+public class AlbumDetailFragment extends Fragment implements View.OnClickListener, AlbumDetailView{
 
     @InjectView(R.id.fragment_album_detail_open_gallery) Button btGallery;
     @InjectView(R.id.fragment_album_detail_open_camera)Button btCamera;
@@ -37,17 +42,22 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     @InjectView(R.id.fragment_album_detail_image)ImageView imageView;
     @InjectView(R.id.fragment_album_detail_name)EditText vEditText;
 
+   private AlbumDetailPresenter presenter;
+    private long id;
+    private Uri imageUri;
 
-    private Album album;
 
     public static AlbumDetailFragment newInstance(Album album){
         Bundle args = new Bundle();
         long id = 0;
+        String url = null;
         if (album != null){
             id = album.getId();
+            url = album.getPhoto();
         }
 
         args.putLong("id", id);
+        args.putString("url",url);
         AlbumDetailFragment fragment = new AlbumDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,11 +66,10 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        long id = getArguments().getLong("id");
-        album = new AlbumRepositoryImpl(getActivity()).getAlbum(id);
-        if (album == null){
-            album = new Album();
-        }
+        AlbumRepository repository = new AlbumRepositoryImpl(getActivity());
+        presenter = new AlbumDetailPresenterImpl(this, repository);
+        id = getArguments().getLong("id");
+        imageUri = Uri.parse(getArguments().getString("url"));
     }
 
     @Nullable
@@ -77,8 +86,7 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         btGallery.setOnClickListener(this);
         btSave.setOnClickListener(this);
 
-        Picasso.with(getActivity()).load(album.getPhoto()).into(imageView);
-        vEditText.setText(album.getName());
+        presenter.showAlbum(id);
     }
 
     @Override
@@ -99,18 +107,14 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void save(){
-        AlbumRepositoryImpl repository = new AlbumRepositoryImpl(getActivity());
-        if (album.getId() == 0){
-            album.setName(vEditText.getText().toString());
-            repository.insertAlbum(album);
+        if (id == 0){
+            presenter.insertAlbum(id, vEditText.getText().toString(), imageUri.toString());
         } else {
-            album.setName(vEditText.getText().toString());
-            repository.updateAlbum(album);
+           presenter.editAlbum(id,vEditText.getText().toString(), imageUri.toString());
         }
         getActivity().onBackPressed();
     }
 
-    Uri imageUri;
 
     private void openCamera(){
        ContentValues values = new ContentValues();
@@ -140,20 +144,28 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 1){
-                Uri imageUri = data.getData();
-                album.setPhoto(imageUri.toString());
+                 imageUri = data.getData();
+
 
             }
-
             if (requestCode == 2){
-                album.setPhoto(imageUri.toString());
+
                 imageUri = null;
             }
 
             Picasso.with(getActivity())
-                    .load(album.getPhoto())
+                    .load(imageUri)
                     .into(imageView);
-
         }
+    }
+
+    @Override
+    public void showEditDetail(Album album) {
+if (album != null) {
+     vEditText.setText(album.getName(), TextView.BufferType.EDITABLE);
+       Picasso.with(getActivity())
+                .load(album.getPhoto())
+                .into(imageView);
+}
     }
 }

@@ -96,6 +96,19 @@ public class AlbumListFragment extends Fragment implements AlbumListView, OnAlbu
     }
 
     @Override
+    public void deleteAlbum(Album album) {
+        presenter.deleteAlbum(album);
+    }
+
+    @Override
+    public void editAlbum(Album album) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, AlbumDetailFragment.newInstance(album))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fragment_album_list_create:

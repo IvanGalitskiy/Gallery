@@ -11,4 +11,5 @@ public interface AlbumPresenter {
     void onAlbumClick(Album album);
     void onAlbumEdit(Album album);
     void onAlbumCreate();
+    void deleteAlbum(Album album);
 }

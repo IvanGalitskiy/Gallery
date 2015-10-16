@@ -9,6 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/item_album_delete"
+            android:src="@drawable/delete1"
+            android:layout_gravity="left" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/item_album_edit"
+            android:src="@drawable/edit1"
+            android:layout_gravity="right" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/item_album_name"
         android:text="sdfsfdgsdfg"

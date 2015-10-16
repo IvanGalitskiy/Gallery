@@ -36,6 +36,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         AlbumViewHolder holder = (AlbumViewHolder) viewHolder;
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(i);
+        holder.vDelete.setTag(i);
+        holder.vDelete.setOnClickListener(this);
+        holder.vEdit.setTag(i);
+        holder.vEdit.setOnClickListener(this);
+        holder.imageView.setTag(i);
+        holder.imageView.setOnClickListener(this);
 
         Album album = albums.get(i);
 
@@ -55,7 +61,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.albums = albums;
         notifyDataSetChanged();
     }
-
+    public void deleteAlbum(Album album)
+    {
+        for (int i=0;i<albums.size();i++)
+        {
+            if (albums.get(i).getId() == album.getId())
+            {
+                albums.remove(i);
+                break;
+            }
+        }
+        notifyDataSetChanged();
+    }
     public void setListener(OnAlbumClickListener listener) {
         this.listener = listener;
     }
@@ -63,8 +80,26 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onClick(View v) {
         int pos = (int) v.getTag();
-        if (listener != null){
-            listener.onAlbumClick(albums.get(pos));
+        Album album = albums.get(pos);
+        switch (v.getId()) {
+            case (R.id.item_album_image):
+                if (listener != null) {
+                listener.onAlbumClick(album);
+            }
+                break;
+            case (R.id.item_album_delete):
+                if (listener != null) {
+                    listener.deleteAlbum(album);
+                    this.deleteAlbum(album);
+                }
+                break;
+            case (R.id.item_album_edit):
+                if (listener != null) {
+                    listener.editAlbum(album);
+                }
+                break;
+
+
         }
     }
 
