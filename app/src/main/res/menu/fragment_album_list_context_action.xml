@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <item
+            android:id="@+id/menu_fragment_album_list_context_action_edit"
+            android:title = "Edit"
+            android:icon="@drawable/edit1"
+            />
+    <item
+        android:id="@+id/menu_fragment_album_list_context_action_delete"
+        android:title = "Delete"
+        android:icon="@drawable/delete1"
+        />
+
+</menu>

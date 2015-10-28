@@ -75,6 +75,7 @@ public class PhotoListFragment extends Fragment implements PhotoListView, OnPhot
         super.onCreate(savedInstanceState);
         PhotoRepository repository = new PhotoRepositoryImpl(getActivity());
         presenter = new PhotoPresenterImpl(this, repository);
+
     }
 
     @Nullable

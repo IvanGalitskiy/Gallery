@@ -46,7 +46,6 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
     private long id = 0;
     private Uri imageUri;
 
-
     public static AlbumDetailFragment newInstance(Album album){
         Bundle args = new Bundle();
         long id = 0;
@@ -61,10 +60,10 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         AlbumRepository repository = new AlbumRepositoryImpl(getActivity());
         presenter = new AlbumDetailPresenterImpl(this, repository);
         if (getArguments()!=null) {
@@ -74,13 +73,11 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
             }
         }
     }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_album_detail, container, false);
     }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -88,7 +85,6 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         btCamera.setOnClickListener(this);
         btGallery.setOnClickListener(this);
         btSave.setOnClickListener(this);
-
         presenter.showAlbum(id);
     }
 
@@ -98,21 +94,15 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
             case R.id.fragment_album_detail_open_camera:
                 openCamera();
                 break;
-
             case R.id.fragment_album_detail_open_gallery:
                 openGallery();
                 break;
-
             case R.id.fragment_album_detail_save:
                 presenter.saveAlbum(id, vEditText.getText().toString(), imageUri.toString());
                 getActivity().onBackPressed();
                 break;
         }
     }
-
-
-
-
     private void openCamera(){
        ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "StartTodo image"+new Date().getTime());
@@ -135,7 +125,6 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
         startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), SELECT_PICTURE);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -146,13 +135,11 @@ public class AlbumDetailFragment extends Fragment implements View.OnClickListene
             if (requestCode == 2){
                 imageUri = null;
             }
-
             Picasso.with(getActivity())
                     .load(imageUri)
                     .into(imageView);
         }
     }
-
     @Override
     public void showEditDetail(Album album) {
     if (album != null) {

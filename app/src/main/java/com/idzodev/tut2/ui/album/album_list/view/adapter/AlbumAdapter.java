@@ -1,8 +1,13 @@
 package com.idzodev.tut2.ui.album.album_list.view.adapter;
 
 import android.content.Context;
+
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,11 +21,13 @@ import java.util.List;
 /**
  * Created by vova on 06.10.15.
  */
-public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener, View.OnLongClickListener{
     private List<Album> albums;
     private final LayoutInflater inflater;
     private OnAlbumClickListener listener;
+    private ActionMode vActionMode;
 
+ private Album album;
     public AlbumAdapter(Context context) {
         albums = new ArrayList<>();
         inflater = LayoutInflater.from(context);
@@ -35,6 +42,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         AlbumViewHolder holder = (AlbumViewHolder) viewHolder;
         holder.itemView.setOnClickListener(this);
+        holder.itemView.setOnLongClickListener(this);
         holder.itemView.setTag(i);
         holder.vDelete.setTag(i);
         holder.vDelete.setOnClickListener(this);
@@ -42,6 +50,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         holder.vEdit.setOnClickListener(this);
         holder.imageView.setTag(i);
         holder.imageView.setOnClickListener(this);
+        holder.imageView.setOnLongClickListener(this);
 
         Album album = albums.get(i);
 
@@ -102,6 +111,65 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         }
     }
+    @Override
+    public boolean onLongClick(View view) {
 
+        if (vActionMode != null) {
+            return false;
+        }
+        int pos = (int) view.getTag();
+        album = albums.get(pos);
+        switch (view.getId())
+        {
+            case R.id.item_album_image:
 
+                return listener.showContextMenu(vActionMode, view, mActionModeCallback);
+        }
+
+        return false;
+    }
+
+    public ActionMode getvActionMode() {
+        return vActionMode;
+    }
+
+    public void setvActionMode(ActionMode vActionMode) {
+        this.vActionMode = vActionMode;
+    }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.fragment_album_list_context_action, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_fragment_album_list_context_action_delete:
+                    listener.deleteAlbum(album);
+                    mode.finish();
+                    return true;
+                case R.id.menu_fragment_album_list_context_action_edit:
+                    listener.editAlbum(album);
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+           setvActionMode(null);
+        }
+    };
 }
