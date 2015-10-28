@@ -122,8 +122,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (view.getId())
         {
             case R.id.item_album_image:
-
-                return listener.showContextMenu(vActionMode, view, mActionModeCallback);
+                listener.showContextMenu(vActionMode, view, mActionModeCallback);
+                return true;
         }
 
         return false;
